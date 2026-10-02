@@ -81,6 +81,10 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
+  width: 100%;
 }
 
 body {
@@ -89,6 +93,10 @@ body {
   color: var(--text-dark);
   line-height: 1.6;
   overflow-x: hidden;
+  overflow-x: clip;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -124,11 +132,16 @@ button {
   max-width: 1240px;
   margin: 0 auto;
   padding: 0 32px;
+  box-sizing: border-box;
 }
 
 .section {
   position: relative;
   padding: 100px 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .gold { color: var(--gold); }
@@ -535,6 +548,7 @@ button {
   position: absolute;
   inset: 0;
   z-index: 1;
+  overflow: hidden;
 }
 
 .hero-img {
@@ -772,6 +786,10 @@ button {
   border-bottom: 1px solid rgba(212, 175, 55, 0.2);
   padding: 18px 0;
   user-select: none;
+  width: 100%;
+  max-width: 100vw;
+  contain: paint;
+  touch-action: pan-y;
 }
 
 .ticker {
@@ -780,6 +798,7 @@ button {
   white-space: nowrap;
   animation: ticker 32s linear infinite;
   will-change: transform;
+  pointer-events: none;
 }
 
 .ticker span {
@@ -2093,14 +2112,25 @@ button {
     align-items: flex-start;
     padding: 85px 28px 36px;
     gap: 20px;
-    transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    display: none;
     box-shadow: -8px 0 40px rgba(0, 0, 0, 0.85);
     border-left: 1px solid var(--gold-border);
   }
   
   .nav-links.open {
-    transform: translateX(0);
+    display: flex;
+    animation: slideNavIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes slideNavIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
   }
 
   .nav-links a {
@@ -2138,6 +2168,10 @@ button {
     flex-direction: column;
     text-align: center;
     padding: 32px 24px;
+  }
+
+  .about-bg-accent {
+    display: none !important;
   }
 }
 
@@ -2185,6 +2219,7 @@ button {
   .hero-img {
     object-position: 28% center;
     filter: contrast(1.08) brightness(0.98);
+    transform: none !important;
   }
 
   .hero-overlay {
@@ -2547,11 +2582,16 @@ button {
 
   .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .gallery-card {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
     border-radius: var(--radius-md);
     aspect-ratio: 1 / 1;
     overflow: hidden;
